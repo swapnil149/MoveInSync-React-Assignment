@@ -27,8 +27,7 @@ class LandingPage extends React.Component {
       filterStr: "",
       filteredData: null,
       selectColorFilter: "",
-      searchFlag: false,
-      resetFlag: false
+      shouldRowBeHide: {}
     };
   }
   handleRemove = event => {
@@ -97,31 +96,54 @@ class LandingPage extends React.Component {
 
   handleFilterChange = e => {
     this.setState({
-      filterStr: e.target.value,
-      searchFlag: false,
-      resetFlag: false
+      filterStr: e.target.value
     });
   };
 
   handleSelectColor = e => {
     console.log(e.target.value);
     this.setState({
-      selectColorFilter: e.target.value,
-      searchFlag: false,
-      resetFlag: false
+      selectColorFilter: e.target.value
     });
   };
 
   handleSearch = () => {
-    this.setState({ searchFlag: true, resetFlag: false });
+    const { filterStr, selectColorFilter, data } = this.state;
+
+    const shouldRowBeHide = {};
+    data.forEach((obj, index) => {
+      if (
+        filterStr &&
+        selectColorFilter &&
+        filterStr.length &&
+        selectColorFilter.length
+      ) {
+        shouldRowBeHide[index] =
+          obj.carNo.includes(this.state.filterStr.toUpperCase()) &&
+          obj.color === selectColorFilter;
+        shouldRowBeHide[index] = !shouldRowBeHide[index];
+      } else if (filterStr && filterStr.length) {
+        shouldRowBeHide[index] = obj.carNo.includes(
+          this.state.filterStr.toUpperCase()
+        );
+        shouldRowBeHide[index] = !shouldRowBeHide[index];
+      } else if (selectColorFilter && selectColorFilter.length) {
+        shouldRowBeHide[index] = obj.color === selectColorFilter;
+        shouldRowBeHide[index] = !shouldRowBeHide[index];
+      } else {
+        shouldRowBeHide[index] = true;
+        shouldRowBeHide[index] = !shouldRowBeHide[index];
+      }
+    });
+
+    this.setState({ shouldRowBeHide });
   };
 
   handleReset = () => {
     this.setState({
-      resetFlag: true,
-      searchFlag: false,
       selectColorFilter: "",
-      filterStr: ""
+      filterStr: "",
+      shouldRowBeHide: {}
     });
   };
 
@@ -131,52 +153,11 @@ class LandingPage extends React.Component {
       show,
       errorInModal,
       filterStr,
-      selectColorFilter
+      selectColorFilter,
+      shouldRowBeHide,
+      data
     } = this.state;
-    //debugger;
-    const data = !this.state.resetFlag
-      ? this.state.searchFlag
-        ? this.state.data.filter(obj => {
-            if (
-              filterStr &&
-              selectColorFilter &&
-              filterStr.length &&
-              selectColorFilter.length
-            )
-              return (
-                obj.carNo.includes(this.state.filterStr.toUpperCase()) &&
-                obj.color === selectColorFilter
-              );
-            else if (filterStr && filterStr.length)
-              return obj.carNo.includes(this.state.filterStr.toUpperCase());
-            else if (selectColorFilter && selectColorFilter.length)
-              return obj.color === selectColorFilter;
-            return true;
-          })
-        : this.state.data
-      : this.state.data;
-    // let data = [];
-    // if (this.state.searchFlag) {
-    //   data = this.state.data.filter(obj => {
-    //     if (
-    //       filterStr &&
-    //       selectColorFilter &&
-    //       filterStr.length &&
-    //       selectColorFilter.length
-    //     )
-    //       return (
-    //         obj.carNo.includes(this.state.filterStr.toUpperCase()) &&
-    //         obj.color === selectColorFilter
-    //       );
-    //     else if (filterStr && filterStr.length)
-    //       return obj.carNo.includes(this.state.filterStr.toUpperCase());
-    //     else if (selectColorFilter && selectColorFilter.length)
-    //       return obj.color === selectColorFilter;
-    //     return true;
-    //   });
-    // } else if (!(selectColorFilter && selectColorFilter.length)) {
-    //   data = this.state.data;
-    // }
+
     const { totalSlots, availableSlots } = this.props;
     return (
       <>
@@ -236,6 +217,7 @@ class LandingPage extends React.Component {
               data={data}
               handleRemove={this.handleRemove}
               handleSort={this.handleSort}
+              shouldRowBeHide={shouldRowBeHide}
             />
           </div>
         </div>

@@ -54,14 +54,16 @@ import { renderTableData, renderTableHeader } from "./util";
 // }
 
 const TableElement = props => {
-  const { data, handleSort, handleRemove } = props;
+  const { data, handleSort, handleRemove, shouldRowBeHide } = props;
+  const rows = renderTableData(data, handleRemove, shouldRowBeHide);
+
   return (
     <div className="table">
-      {data && data.length ? (
+      {rows && rows.length ? (
         <table className="car">
           <tbody>
             <tr>{renderTableHeader(data, handleSort)}</tr>
-            {renderTableData(data, handleRemove)}
+            {rows}
           </tbody>
         </table>
       ) : (

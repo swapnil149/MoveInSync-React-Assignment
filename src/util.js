@@ -202,7 +202,7 @@ const renderTableHeader = (data, handleSortUp) => {
         ele = "Date Time";
       }
       mainEle = (
-        <th>
+        <th key={index}>
           <div className="sortHeader">
             <div style={{ marginRight: "5px" }}>{ele}</div>
             <button
@@ -231,24 +231,33 @@ const renderTableHeader = (data, handleSortUp) => {
   return tableHeader;
 };
 
-const renderTableData = (data, handleRemove) => {
-  const tableData = data.map((car, index) => {
-    const { id, carNo, color, slotNo, date } = car; //destructuring
-    return (
-      <tr>
-        <td>{id}</td>
-        <td>{carNo}</td>
-        <td>{color}</td>
-        <td>{slotNo}</td>
-        <td>{date}</td>
-        <td>
-          <button name={index} onClick={handleRemove}>
-            Remove
-          </button>
-        </td>
-      </tr>
-    );
+const renderTableData = (data, handleRemove, shouldRowBeHide) => {
+  let tableData = data.map((car, index) => {
+    const { id, carNo, color, slotNo, date } = car;
+    if (!shouldRowBeHide[index]) {
+      return (
+        <tr key={carNo}>
+          <td>{id}</td>
+          <td>{carNo}</td>
+          <td>{color}</td>
+          <td>{slotNo}</td>
+          <td>{date}</td>
+          <td>
+            <button name={index} onClick={handleRemove}>
+              Remove
+            </button>
+          </td>
+        </tr>
+      );
+    } else {
+      return null;
+    }
   });
+
+  tableData = tableData.filter(row => !!row);
+
+  debugger;
+
   return tableData;
 };
 
