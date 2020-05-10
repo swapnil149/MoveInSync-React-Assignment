@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-import InitialPage from "./InitialPage";
+// import InitialPage from "./InitialPage";
 import LandingPage from "./LandingPage";
 import { isValid, invalidInput } from "./util";
 
