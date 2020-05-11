@@ -20,33 +20,48 @@ class Modal extends React.Component {
 
   render() {
     const { licenseNo, newColor } = this.state;
-    const { closeModalWithValidation, errorInModal } = this.props;
+    const {
+      createModalWithValidation,
+      errorInModal,
+      availableSlots,
+      closeModal
+    } = this.props;
     return (
       <div className="modal">
         <div className="modal-main">
-          <h1>Entry for new car</h1>
-          <input
-            name="licenseNo"
-            value={licenseNo}
-            placeholder="Enter Car No. Example: KA-46-XB-1917"
-            onChange={this.handleNewCarEntry}
-          />
-          <input
-            name="newColor"
-            value={newColor}
-            placeholder="Enter car color Example: Red"
-            onChange={this.handleNewCarEntry}
-          />
-          <button
-            onClick={() => {
-              closeModalWithValidation(licenseNo, newColor);
-            }}
-          >
-            Create Entry
-          </button>
-          {errorInModal && errorInModal.length ? (
-            <div>{invalidInput}</div>
-          ) : null}
+          {parseInt(availableSlots, 10) !== 0 ? (
+            <div>
+              <h1>Entry for new car</h1>
+              <input
+                name="licenseNo"
+                value={licenseNo}
+                placeholder="Enter Car No. Example: KA-46-XB-1917"
+                onChange={this.handleNewCarEntry}
+              />
+              <input
+                name="newColor"
+                value={newColor}
+                placeholder="Enter car color Example: Red"
+                onChange={this.handleNewCarEntry}
+              />
+              <button
+                onClick={() => {
+                  createModalWithValidation(licenseNo, newColor);
+                }}
+              >
+                Create Entry
+              </button>
+              <button onClick={closeModal}>Close</button>
+              {errorInModal && errorInModal.length ? (
+                <div>{invalidInput}</div>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <h1>"Sorry all slots are full"</h1>
+              <button onClick={closeModal}>Close</button>
+            </div>
+          )}
         </div>
       </div>
     );

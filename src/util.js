@@ -1,7 +1,5 @@
 import React from "react";
 
-const numberOfTableEntries = 5;
-
 const isValid = (totalSlots, availableSlots) => {
   if (
     regexForNumber(totalSlots) &&
@@ -48,21 +46,21 @@ const carColorArray = carColor => {
   return carColor.map(val => val.label);
 };
 
-const getSlotNo = slotArray => {
-  let randomSlot = Math.floor(Math.random() * 50 + 1);
-  if (slotArray.length === 50 || slotArray.indexOf(randomSlot) === -1)
+const getSlotNo = (slotArray, totalSlots) => {
+  let randomSlot = Math.floor(Math.random() * totalSlots + 1);
+  if (slotArray.length === totalSlots || slotArray.indexOf(randomSlot) === -1)
     return randomSlot;
-  return getSlotNo(slotArray);
+  return getSlotNo(slotArray, totalSlots);
 };
 const getDate = () => {
   return Math.floor(Math.random() * 30 + 1) + " May 2019, 3:29 PM";
 };
-const carInfo = () => {
+const carInfo = (totalSlots, carsParked) => {
   const carArrayOfObject = [];
   const slotArray = [];
   const colorArray = carColorArray(carColor);
-  for (let i = 1; i <= numberOfTableEntries; i++) {
-    slotArray.push(getSlotNo(slotArray));
+  for (let i = 1; i <= carsParked; i++) {
+    slotArray.push(getSlotNo(slotArray, totalSlots));
     carArrayOfObject.push({
       id: i,
       carNo: randomString(),
@@ -74,7 +72,8 @@ const carInfo = () => {
   return carArrayOfObject;
 };
 
-const carAttributes = carInfo();
+const carAttributes = (totalSlots, carsParked) =>
+  carInfo(totalSlots, carsParked);
 // const carAttributes = [
 //   {
 //     id: 1,
@@ -255,9 +254,6 @@ const renderTableData = (data, handleRemove, shouldRowBeHide) => {
   });
 
   tableData = tableData.filter(row => !!row);
-
-  debugger;
-
   return tableData;
 };
 
@@ -267,14 +263,15 @@ const showQueryData = data => {
 const regexForAlphabets = /^[A-Za-z]+$/;
 
 const isValidModalEntry = (licenseNo, newColor) => {
-  if (licenseNo && licenseNo.length === 0 && newColor && newColor.length === 0)
-    return true;
+  // if (licenseNo && licenseNo.length === 0 && newColor && newColor.length === 0)
+  //   return true;
   if (
     licenseNo &&
     licenseNo.length === 13 &&
     newColor.length &&
     regexForAlphabets.test(newColor)
   ) {
+    debugger;
     let i;
     const n = licenseNo.length;
     for (i = 0; i < n; i++) {
@@ -287,6 +284,7 @@ const isValidModalEntry = (licenseNo, newColor) => {
         if (!regexForNumber(licenseNo[i])) return false;
         i++;
       }
+      debugger;
     }
     if (i === 14) return true;
   }
@@ -308,5 +306,6 @@ export {
   showQueryData,
   isValidModalEntry,
   getSlotNo,
-  getDate
+  getDate,
+  carColorArray
 };

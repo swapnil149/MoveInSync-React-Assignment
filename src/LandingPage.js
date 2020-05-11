@@ -14,6 +14,7 @@ import {
 } from "./util";
 import TableElement from "./TableElement";
 import Modal from "./Modal";
+import update from "react-addons-update";
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -22,12 +23,14 @@ class LandingPage extends React.Component {
       queryData: 0,
       show: false,
       errorInModal: "",
-      data: carAttributes,
+      //data: carAttributes(10, 5),
+      data: carAttributes(this.props.totalSlots, this.props.carsParked),
       carColor: carColor,
       filterStr: "",
       filteredData: null,
       selectColorFilter: "",
-      shouldRowBeHide: {}
+      shouldRowBeHide: {},
+      carsParked: this.props.carsParked
     };
   }
   handleRemove = event => {
@@ -35,7 +38,7 @@ class LandingPage extends React.Component {
     const index = event.target.name;
     data.splice(index, 1);
     this.handleQueryData();
-    this.setState({ data });
+    this.setState({ data, carsParked: this.state.carsParked - 1 });
   };
 
   handleSort = event => {
@@ -57,37 +60,44 @@ class LandingPage extends React.Component {
   showModal = () => {
     this.setState({ show: true });
   };
-
-  closeModalWithValidation = (licenseNo, newColor) => {
-    const data = this.state.data;
-    const slotArray = data.map(val => val.slotNo);
-    const newSlotNo = getSlotNo(slotArray);
-    const carColor = this.state.carColor;
+  closeModal = () => {
+    this.setState({ show: false, errorInModal: "" });
+  };
+  createModalWithValidation = (licenseNo, newColor) => {
+    const slotArray = this.state.data.map(val => val.slotNo);
+    const newSlotNo = getSlotNo(slotArray, this.props.totalSlots);
     const objColor = { value: newColor, label: newColor };
-    if (carColor.indexOf(objColor) !== -1) {
-      carColor.push(objColor);
+    let carColor;
+    if (this.state.carColor.indexOf(objColor) === -1) {
+      carColor = update(this.state.carColor, { $push: [objColor] });
     }
+
+    const newCarNoArray = this.state.data.map(val => val.carNo);
     const obj = {
-      id: data.length + 1,
+      id: this.state.data.length + 1,
       carNo: licenseNo,
       color: newColor,
       slotNo: newSlotNo,
       date: getDate()
     };
-    data.push(obj);
-    this.setState(() =>
-      isValidModalEntry(licenseNo, newColor)
-        ? {
-            show: false,
-            errorInModal: "",
-            carColor,
-            data
-          }
-        : {
-            show: true,
-            errorInModal: invalidInput
-          }
-    );
+
+    const data = update(this.state.data, { $push: [obj] });
+    debugger;
+    if (
+      isValidModalEntry(licenseNo, newColor) &&
+      newCarNoArray.indexOf(licenseNo) === -1
+    ) {
+      debugger;
+      this.setState({
+        errorInModal: "",
+        carColor: carColor,
+        carsParked: this.state.data.length + 1,
+        data
+      });
+    } else {
+      debugger;
+      this.setState({ errorInModal: invalidInput, data: this.state.data });
+    }
   };
 
   handleQueryData = () => {
@@ -155,10 +165,15 @@ class LandingPage extends React.Component {
       filterStr,
       selectColorFilter,
       shouldRowBeHide,
-      data
+      data,
+      carsParked,
+      carColor
     } = this.state;
 
-    const { totalSlots, availableSlots } = this.props;
+    const { totalSlots } = this.props;
+    // const carsParked = 5;
+    // const totalSlots = 10;
+    //const
     return (
       <>
         <div className="App">
@@ -175,11 +190,13 @@ class LandingPage extends React.Component {
             </div>
             {show ? (
               <Modal
-                closeModalWithValidation={this.closeModalWithValidation}
+                createModalWithValidation={this.createModalWithValidation}
                 errorInModal={errorInModal}
+                availableSlots={totalSlots - carsParked}
+                closeModal={this.closeModal}
               />
             ) : null}
-            <div>Available Parking slots: {totalSlots - availableSlots}</div>
+            <div>Available Parking slots: {totalSlots - carsParked}</div>
             <div className="flexInner3">
               <div>
                 <input
@@ -218,6 +235,8 @@ class LandingPage extends React.Component {
               handleRemove={this.handleRemove}
               handleSort={this.handleSort}
               shouldRowBeHide={shouldRowBeHide}
+              // totalSlots={totalSlots}
+              // carsParked={carsParked}
             />
           </div>
         </div>

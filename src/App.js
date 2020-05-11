@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-// import InitialPage from "./InitialPage";
+import InitialPage from "./InitialPage";
 import LandingPage from "./LandingPage";
 import { isValid, invalidInput } from "./util";
 
@@ -9,16 +9,16 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       totalSlots: 0,
-      availableSlots: 0,
+      carsParked: 0,
       submitted: false,
       error: ""
     };
   }
 
   handleSubmit = event => {
-    const { totalSlots, availableSlots } = this.state;
+    const { totalSlots, carsParked } = this.state;
     this.setState(() =>
-      isValid(totalSlots, availableSlots)
+      isValid(totalSlots, carsParked)
         ? {
             submitted: true,
             error: ""
@@ -41,27 +41,27 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <>
-      //   {!this.state.submitted ? (
-      //     <InitialPage
-      //       totalSlots={this.state.totalSlots}
-      //       availableSlots={this.state.availableSlots}
-      //       handleSubmit={this.handleSubmit}
-      //       handleParkedPlaces={this.handleParkedPlaces}
-      //       error={this.state.error}
-      //     />
-      //   ) : (
-      //     <LandingPage
-      //       totalSlots={this.state.totalSlots}
-      //       availableSlots={this.state.availableSlots}
-      //     />
-      //   )}
-      // </>
+      <>
+        {!this.state.submitted ? (
+          <InitialPage
+            totalSlots={this.state.totalSlots}
+            carsParked={this.state.carsParked}
+            handleSubmit={this.handleSubmit}
+            handleParkedPlaces={this.handleParkedPlaces}
+            error={this.state.error}
+          />
+        ) : (
+          <LandingPage
+            totalSlots={this.state.totalSlots}
+            carsParked={this.state.carsParked}
+          />
+        )}
+      </>
 
-      <LandingPage
-        totalSlots={this.state.totalSlots}
-        availableSlots={this.state.availableSlots}
-      />
+      // <LandingPage
+      //   totalSlots={this.state.totalSlots}
+      //   carsParked={this.state.carsParked}
+      // />
     );
   }
 }

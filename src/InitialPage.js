@@ -6,7 +6,7 @@ const InitialPage = props => {
     handleParkedPlaces,
     handleSubmit,
     totalSlots,
-    availableSlots,
+    carsParked,
     error
   } = props;
   return (
@@ -19,17 +19,17 @@ const InitialPage = props => {
               name="totalSlots"
               value={totalSlots}
               placeholder="Enter Number of Parking Places"
-              type="number"
+              //type="number"
               onChange={handleParkedPlaces}
             />
           </li>
           <li>
-            <label>Available Slots</label>
+            <label>Cars Parked</label>
             <input
-              name="availableSlots"
-              value={availableSlots}
-              placeholder="Enter Number of Available Slots"
-              type="number"
+              name="carsParked"
+              value={carsParked}
+              placeholder="Enter Number of parked cars"
+              //type="number"
               onChange={handleParkedPlaces}
             />
           </li>
