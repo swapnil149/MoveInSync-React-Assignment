@@ -23,8 +23,7 @@ const carColor = [
   { value: "BLACK", label: "BLACK" },
   { value: "WHITE", label: "WHITE" },
   { value: "GREY", label: "GREY" },
-  { value: "BROWN", label: "BROWN" },
-  { value: "YELLOW", label: "YELLOW" }
+  { value: "BROWN", label: "BROWN" }
 ];
 const randomStringUtil = string_length => {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -257,7 +256,11 @@ const renderTableData = (data, handleRemove, shouldRowBeHide) => {
           <td>{slotNo}</td>
           <td>{date}</td>
           <td>
-            <button name={index} onClick={handleRemove}>
+            <button
+              className="removeButton"
+              name={index}
+              onClick={handleRemove}
+            >
               Remove
             </button>
           </td>

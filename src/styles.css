@@ -191,7 +191,16 @@ body {
   border: 1px solid (255, 255, 255, 0.74);
   cursor: pointer;
 }
-
+.removeButton {
+  border: none;
+  border-radius: 4px;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  background-color: rgb(255, 187, 0);
+}
 .modal {
   display: block;
   position: fixed;
