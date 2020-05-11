@@ -31,35 +31,46 @@ class Modal extends React.Component {
         <div className="modal-main">
           {parseInt(availableSlots, 10) !== 0 ? (
             <div>
-              <h1>Entry for new car</h1>
-              <input
-                name="licenseNo"
-                value={licenseNo}
-                placeholder="Enter Car No. Example: KA-46-XB-1917"
-                onChange={this.handleNewCarEntry}
-              />
-              <input
-                name="newColor"
-                value={newColor}
-                placeholder="Enter car color Example: Red"
-                onChange={this.handleNewCarEntry}
-              />
-              <button
-                onClick={() => {
-                  createModalWithValidation(licenseNo, newColor);
-                }}
-              >
-                Create Entry
-              </button>
-              <button onClick={closeModal}>Close</button>
-              {errorInModal && errorInModal.length ? (
-                <div>{invalidInput}</div>
-              ) : null}
+              <div className="header">Entry for new car</div>
+              <div className="modalInner">
+                <input
+                  className="licenseNo"
+                  name="licenseNo"
+                  value={licenseNo}
+                  placeholder="Enter Car No. Example: KA-46-XB-1917"
+                  onChange={this.handleNewCarEntry}
+                />
+                <input
+                  className="newColor"
+                  name="newColor"
+                  value={newColor}
+                  placeholder="Enter car color Example: Red"
+                  onChange={this.handleNewCarEntry}
+                />
+                <div className="modalButton">
+                  <button
+                    className="createEntry"
+                    onClick={() => {
+                      createModalWithValidation(licenseNo, newColor);
+                    }}
+                  >
+                    Create Entry
+                  </button>
+                  <button className="close" onClick={closeModal}>
+                    Close
+                  </button>
+                </div>
+                {errorInModal && errorInModal.length ? (
+                  <div className="modalError">{invalidInput}</div>
+                ) : null}
+              </div>
             </div>
           ) : (
-            <div>
-              <h1>"Sorry all slots are full"</h1>
-              <button onClick={closeModal}>Close</button>
+            <div className="modalNoEntry">
+              <h1>Sorry all slots are full</h1>
+              <button className="close" onClick={closeModal}>
+                Close
+              </button>
             </div>
           )}
         </div>

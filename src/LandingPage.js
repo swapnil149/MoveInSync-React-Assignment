@@ -22,7 +22,6 @@ class LandingPage extends React.Component {
       queryData: 0,
       show: false,
       errorInModal: "",
-      //data: carAttributes(10, 5),
       data: carAttributes(this.props.totalSlots, this.props.carsParked),
       carColor: carColor,
       filterStr: "",
@@ -166,16 +165,16 @@ class LandingPage extends React.Component {
     } = this.state;
 
     const { totalSlots } = this.props;
-    // const carsParked = 5;
-    // const totalSlots = 10;
-    //const
     return (
       <>
         <div className="App">
           <div className="header">Automated Parking Lot System</div>
           <div className="main">
             <div className="flexInner1">
-              <div>Total Parking Slots : {totalSlots}</div>
+              <div className="numberValue">
+                <div style={{ marginRight: "5px" }}>Total Parking Slots :</div>
+                <div style={{ color: "red" }}>{totalSlots}</div>
+              </div>
               <div className="flexDoubleInner">
                 <button
                   className="queryData"
@@ -196,38 +195,40 @@ class LandingPage extends React.Component {
                 closeModal={this.closeModal}
               />
             ) : null}
-            <div>Available Parking slots: {totalSlots - carsParked}</div>
+            <div className="numberValue">
+              <div style={{ marginRight: "5px" }}>Available Parking slots:</div>
+              <div style={{ color: "red" }}>{totalSlots - carsParked}</div>
+            </div>
+
             <div className="flexInner3">
-              <div>
-                <input
-                  name="carNo"
-                  value={filterStr}
-                  placeholder="TYPE REG NO."
-                  type="text"
-                  onChange={this.handleFilterChange}
-                />
-              </div>
-              <div>
-                <select
-                  value={selectColorFilter}
-                  onChange={this.handleSelectColor}
-                >
-                  <option value="" selected disabled hidden>
-                    Choose Color
+              <input
+                className="regNo"
+                name="carNo"
+                value={filterStr}
+                placeholder="TYPE REG NO."
+                type="text"
+                onChange={this.handleFilterChange}
+              />
+              <select
+                className="colorSelector"
+                value={selectColorFilter}
+                onChange={this.handleSelectColor}
+              >
+                <option value="" disabled hidden>
+                  Choose Color
+                </option>
+                {carColor.map(obj => (
+                  <option key={obj.value} value={obj.value}>
+                    {obj.label}
                   </option>
-                  {carColor.map(obj => (
-                    <option key={obj.value} value={obj.value}>
-                      {obj.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <button onClick={this.handleSearch}>Search</button>
-              </div>
-              <div>
-                <button onClick={this.handleReset}>Reset</button>
-              </div>
+                ))}
+              </select>
+              <button className="search" onClick={this.handleSearch}>
+                Search
+              </button>
+              <button className="reset" onClick={this.handleReset}>
+                Reset
+              </button>
             </div>
             <TableElement
               handleQueryData={this.handleQueryData}
@@ -235,8 +236,6 @@ class LandingPage extends React.Component {
               handleRemove={this.handleRemove}
               handleSort={this.handleSort}
               shouldRowBeHide={shouldRowBeHide}
-              // totalSlots={totalSlots}
-              // carsParked={carsParked}
             />
           </div>
         </div>

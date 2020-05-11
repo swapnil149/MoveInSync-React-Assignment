@@ -19,7 +19,6 @@ const InitialPage = props => {
               name="totalSlots"
               value={totalSlots}
               placeholder="Enter Number of Parking Places"
-              //type="number"
               onChange={handleParkedPlaces}
             />
           </li>
@@ -29,7 +28,6 @@ const InitialPage = props => {
               name="carsParked"
               value={carsParked}
               placeholder="Enter Number of parked cars"
-              //type="number"
               onChange={handleParkedPlaces}
             />
           </li>

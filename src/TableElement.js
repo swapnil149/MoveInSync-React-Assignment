@@ -6,7 +6,7 @@ const TableElement = props => {
   const rows = renderTableData(data, handleRemove, shouldRowBeHide);
 
   return (
-    <div className="table">
+    <div>
       {rows && rows.length ? (
         <table className="car">
           <tbody>
@@ -15,7 +15,7 @@ const TableElement = props => {
           </tbody>
         </table>
       ) : (
-        <div>
+        <div className="tableError">
           <h1>No car entries to display</h1>
           <h3>Please park a new car</h3>
         </div>

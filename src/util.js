@@ -217,22 +217,24 @@ const renderTableHeader = (data, handleSortUp) => {
         <th key={index}>
           <div className="sortHeader">
             <div style={{ marginRight: "5px" }}>{ele}</div>
-            <button
-              id={key}
-              name="asc"
-              onClick={event => handleSortUp(event)}
-              className="sortButton"
-            >
-              &uarr;
-            </button>
-            <button
-              id={key}
-              name="des"
-              onClick={event => handleSortUp(event)}
-              className="sortButton"
-            >
-              &darr;
-            </button>
+            <div>
+              <button
+                id={key}
+                name="asc"
+                onClick={event => handleSortUp(event)}
+                className="sortButton"
+              >
+                &uarr;
+              </button>
+              <button
+                id={key}
+                name="des"
+                onClick={event => handleSortUp(event)}
+                className="sortButton"
+              >
+                &darr;
+              </button>
+            </div>
           </div>
         </th>
       );

@@ -32,7 +32,6 @@ export default class App extends React.Component {
   };
 
   handleParkedPlaces = event => {
-    //console.log(event.target.value);
     const name = event.target.name;
     this.setState({
       [name]: event.target.value
@@ -57,13 +56,6 @@ export default class App extends React.Component {
           />
         )}
       </>
-
-      // <LandingPage
-      //   // totalSlots={this.state.totalSlots}
-      //   // carsParked={this.state.carsParked}
-      //   totalSlots={10}
-      //   carsParked={5}
-      // />
     );
   }
 }
