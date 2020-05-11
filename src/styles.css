@@ -34,6 +34,25 @@ body {
   justify-content: flex-end;
 }
 
+.main button {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.queryData {
+  margin-right: 10px;
+  background-color: #4caf50;
+}
+
+.parkACar {
+  background-color: rgba(255, 0, 0, 0.815);
+}
+
 .container {
   background: #3aafab;
   color: #fff;
@@ -119,10 +138,6 @@ body {
   border: 1px solid #ddd;
   padding: 8px;
 }
-
-/* .car tr:nth-child(even) {
-  background-color: #f2f2f2;
-} */
 
 .car tr:hover {
   background-color: #ddd;

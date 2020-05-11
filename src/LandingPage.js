@@ -8,7 +8,6 @@ import {
   sortCarNoData,
   sortColorData,
   sortSlotNoData,
-  sortDateData,
   getSlotNo,
   getDate
 } from "./util";
@@ -50,9 +49,9 @@ class LandingPage extends React.Component {
     } else if (key === "header2") {
       sortColorData(data, name);
     } else if (key === "header3") {
-      sortSlotNoData(data, name);
+      sortSlotNoData(data, name, "slotNo");
     } else if (key === "header4") {
-      sortDateData(data, name);
+      sortSlotNoData(data, name, "date");
     }
     this.setState({ data });
   };
@@ -82,12 +81,10 @@ class LandingPage extends React.Component {
     };
 
     const data = update(this.state.data, { $push: [obj] });
-    debugger;
     if (
       isValidModalEntry(licenseNo, newColor) &&
       newCarNoArray.indexOf(licenseNo) === -1
     ) {
-      debugger;
       this.setState({
         errorInModal: "",
         carColor: carColor,
@@ -95,7 +92,6 @@ class LandingPage extends React.Component {
         data
       });
     } else {
-      debugger;
       this.setState({ errorInModal: invalidInput, data: this.state.data });
     }
   };
@@ -111,7 +107,6 @@ class LandingPage extends React.Component {
   };
 
   handleSelectColor = e => {
-    console.log(e.target.value);
     this.setState({
       selectColorFilter: e.target.value
     });
@@ -182,10 +177,15 @@ class LandingPage extends React.Component {
             <div className="flexInner1">
               <div>Total Parking Slots : {totalSlots}</div>
               <div className="flexDoubleInner">
-                <button onClick={() => showQueryData(queryData)}>
+                <button
+                  className="queryData"
+                  onClick={() => showQueryData(queryData)}
+                >
                   Query Data
                 </button>
-                <button onClick={this.showModal}>Park a Car</button>
+                <button className="parkACar" onClick={this.showModal}>
+                  Park a Car
+                </button>
               </div>
             </div>
             {show ? (

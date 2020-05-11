@@ -26,18 +26,26 @@ const carColor = [
   { value: "BROWN", label: "BROWN" },
   { value: "YELLOW", label: "YELLOW" }
 ];
-
-const randomString = () => {
+const randomStringUtil = string_length => {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const string_length = 2;
-  let randomTwoDigitNumber = Math.floor(Math.random() * 20 + 40);
-  let randomstring = "KA-" + randomTwoDigitNumber + "-";
+  let randomstring = "";
   for (let i = 0; i < string_length; i++) {
     let rnum = Math.floor(Math.random() * chars.length);
     randomstring += chars.substring(rnum, rnum + 1);
   }
+  randomstring += "-";
+  return randomstring;
+};
+const randomString = () => {
+  const string_length = 2;
+  let randomTwoDigitNumber = Math.floor(Math.random() * 20 + 40);
+  let randomstring =
+    randomStringUtil(string_length) +
+    randomTwoDigitNumber +
+    "-" +
+    randomStringUtil(string_length);
   let randomFourDigitNumber = Math.floor(Math.random() * 8999 + 1000);
-  randomstring += "-" + randomFourDigitNumber;
+  randomstring += randomFourDigitNumber;
 
   return randomstring;
 };
@@ -113,6 +121,13 @@ const carAttributes = (totalSlots, carsParked) =>
 // ];
 const sortCarNoData = (data, name) => {
   data.sort((a, b) => {
+    if (a.carNo[0] + a.carNo[1] < b.carNo[0] + b.carNo[1]) {
+      if (name === "des") return 1;
+      return -1;
+    } else if (a.carNo[6] + a.carNo[7] > b.carNo[6] + b.carNo[7]) {
+      if (name === "des") return -1;
+      return 1;
+    }
     if (
       parseInt(a.carNo[3] + a.carNo[4], 10) <
       parseInt(b.carNo[3] + b.carNo[4], 10)
@@ -163,20 +178,18 @@ const sortColorData = (data, name) => {
   });
 };
 
-const sortSlotNoData = (data, name) => {
+const sortSlotNoData = (data, name, header) => {
   data.sort((a, b) => {
-    if (parseInt(a.slotNo, 10) < parseInt(b.slotNo, 10)) {
+    if (parseInt(a[header], 10) < parseInt(b[header], 10)) {
       if (name === "des") return 1;
       return -1;
-    } else if (parseInt(a.slotNo, 10) > parseInt(b.slotNo, 10)) {
+    } else if (parseInt(a[header], 10) > parseInt(b[header], 10)) {
       if (name === "des") return -1;
       return 1;
     }
     return 0;
   });
 };
-
-const sortDateData = (data, name) => {};
 
 const renderTableHeader = (data, handleSortUp) => {
   let header = Object.keys(data[0]);
@@ -263,15 +276,12 @@ const showQueryData = data => {
 const regexForAlphabets = /^[A-Za-z]+$/;
 
 const isValidModalEntry = (licenseNo, newColor) => {
-  // if (licenseNo && licenseNo.length === 0 && newColor && newColor.length === 0)
-  //   return true;
   if (
     licenseNo &&
     licenseNo.length === 13 &&
     newColor.length &&
     regexForAlphabets.test(newColor)
   ) {
-    debugger;
     let i;
     const n = licenseNo.length;
     for (i = 0; i < n; i++) {
@@ -284,7 +294,6 @@ const isValidModalEntry = (licenseNo, newColor) => {
         if (!regexForNumber(licenseNo[i])) return false;
         i++;
       }
-      debugger;
     }
     if (i === 14) return true;
   }
@@ -301,7 +310,6 @@ export {
   carAttributes,
   sortCarNoData,
   sortColorData,
-  sortDateData,
   sortSlotNoData,
   showQueryData,
   isValidModalEntry,

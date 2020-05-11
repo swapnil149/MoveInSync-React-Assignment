@@ -59,8 +59,10 @@ export default class App extends React.Component {
       </>
 
       // <LandingPage
-      //   totalSlots={this.state.totalSlots}
-      //   carsParked={this.state.carsParked}
+      //   // totalSlots={this.state.totalSlots}
+      //   // carsParked={this.state.carsParked}
+      //   totalSlots={10}
+      //   carsParked={5}
       // />
     );
   }
