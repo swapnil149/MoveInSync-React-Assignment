@@ -123,7 +123,7 @@ const sortCarNoData = (data, name) => {
     if (a.carNo[0] + a.carNo[1] < b.carNo[0] + b.carNo[1]) {
       if (name === "des") return 1;
       return -1;
-    } else if (a.carNo[6] + a.carNo[7] > b.carNo[6] + b.carNo[7]) {
+    } else if (a.carNo[0] + a.carNo[1] > b.carNo[0] + b.carNo[1]) {
       if (name === "des") return -1;
       return 1;
     }
